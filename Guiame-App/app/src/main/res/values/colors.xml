@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="rosa_principal">#FFE38AA6</color>
+    <color name="rosa_borde">#FFF6C1D1</color>
+    <color name="rosa_fondo">#FFFDEEF3</color>
+</resources>

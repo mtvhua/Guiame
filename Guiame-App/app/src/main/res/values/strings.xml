@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Guíame</string>
+
+    <!-- General -->
+    <string name="regresar">Regresar</string>
+    <string name="reintentar">Reintentar</string>
+    <string name="mostrar_contrasena">Mostrar contraseña</string>
+    <string name="ocultar_contrasena">Ocultar contraseña</string>
+    <string name="aviso_medico">Esta guía no reemplaza la revisión de un profesional de salud ni la mamografía.</string>
+
+    <!-- Navegación -->
+    <string name="tab_inicio">Inicio</string>
+    <string name="tab_informacion">Información</string>
+    <string name="tab_perfil">Perfil</string>
+
+    <!-- Inicio -->
+    <string name="inicio_subtitulo">Tu guía para el autoexamen de mama</string>
+    <string name="inicio_boton">Autoexamen</string>
+    <string name="inicio_duracion">7 pasos guiados · 5 minutos</string>
+    <string name="inicio_recordatorio">Realízalo una vez al mes, de 3 a 5 días después de que termine tu periodo.</string>
+
+    <!-- Información -->
+    <string name="info_titulo">Información</string>
+    <string name="info_subtitulo">Aprende sobre la salud de tus senos</string>
+    <string name="tema_que_es">¿Qué es el autoexamen?</string>
+    <string name="tema_cuando">Cuándo hacerlo</string>
+    <string name="tema_senales">Señales de alerta</string>
+    <string name="tema_riesgo">Factores de riesgo</string>
+    <string name="tema_mitos">Mitos y verdades</string>
+    <string name="tema_donde">Dónde acudir</string>
+
+    <string name="tema_que_es_cuerpo">El autoexamen de mama es una revisión que haces tú misma, observando y tocando tus senos, para conocer cómo se ven y se sienten normalmente y notar a tiempo cualquier cambio.\n\nNo reemplaza la revisión médica ni la mamografía, pero te ayuda a conocer tu cuerpo y a consultar pronto si algo cambia.\n\nToma alrededor de 5 minutos y puedes hacerlo en casa: frente a un espejo, en la ducha o acostada.</string>
+    <string name="tema_cuando_cuerpo">Hazlo una vez al mes.\n\nSi tienes periodo: de 3 a 5 días después de que termine. En esos días tus senos están menos inflamados y sensibles.\n\nSi ya no tienes periodo, estás embarazada o das de mamar: elige un mismo día cada mes, por ejemplo el día 1, y mantenlo.\n\nPuedes activar un recordatorio en Perfil, Recordatorios.</string>
+    <string name="tema_senales_cuerpo">Pon atención si notas:\n\n• Un bulto o una zona más dura en el seno o en la axila.\n• Cambios en el tamaño o la forma de un seno.\n• Piel hundida, arrugada o con aspecto de cáscara de naranja.\n• Enrojecimiento, descamación o calor en la piel o en el pezón.\n• Un pezón hundido o que cambió de dirección.\n• Salida de líquido por el pezón, sobre todo si tiene sangre.\n• Dolor en una misma zona que no se quita.\n\nLa mayoría de estos cambios no son cáncer, pero siempre es importante que un profesional de salud los revise.</string>
+    <string name="tema_riesgo_cuerpo">Algunos factores aumentan la probabilidad de tener cáncer de mama:\n\n• Tener más edad, sobre todo después de los 40 años.\n• Tener familiares cercanos (madre, hermana o hija) con cáncer de mama o de ovario.\n• Haber tenido cáncer de mama antes.\n• Primera menstruación a temprana edad o menopausia tardía.\n• No haber tenido hijos o tener el primero después de los 30 años.\n• Sobrepeso después de la menopausia, poca actividad física y consumo de alcohol.\n\nTener un factor de riesgo no significa que vas a tener cáncer, y muchas mujeres que lo tienen no tenían factores conocidos. Por eso es importante revisarte cada mes.</string>
+    <string name="tema_mitos_cuerpo">Mito: Si nadie en mi familia tuvo cáncer, a mí no me puede dar.\nVerdad: La mayoría de mujeres con cáncer de mama no tienen antecedentes en su familia.\n\nMito: Todo bulto en el seno es cáncer.\nVerdad: La mayoría de bultos no lo son, pero todos deben revisarse.\n\nMito: El desodorante o el brasier con varilla causan cáncer.\nVerdad: No hay evidencia científica de que lo causen.\n\nMito: Solo las mujeres mayores tienen cáncer de mama.\nVerdad: Es más común después de los 40 años, pero puede aparecer antes.\n\nMito: Si me hago el autoexamen ya no necesito ir al médico.\nVerdad: El autoexamen te ayuda a conocer tu cuerpo, pero no reemplaza la revisión médica ni la mamografía.</string>
+    <string name="tema_donde_cuerpo">Si notaste algún cambio, busca atención aunque no tengas dolor:\n\n• El centro o puesto de salud más cercano.\n• El IGSS, si estás afiliada o eres beneficiaria.\n• La Liga Nacional contra el Cáncer (INCAN), en la Ciudad de Guatemala.\n• Tu médico, ginecóloga o clínica de confianza.\n\nAntes de ir, anota qué cambio notaste, en qué seno y desde cuándo. También puedes mostrar tus reportes de Guíame.</string>
+
+    <!-- Autoexamen -->
+    <string name="salir">Salir</string>
+    <string name="contador_pasos">%1$d/%2$d</string>
+    <string name="etiqueta_paso">PASO %1$d</string>
+    <string name="respuesta_no">No</string>
+    <string name="respuesta_si">Sí</string>
+    <string name="respuesta_no_segura">No estoy segura</string>
+    <string name="continuar">Continuar</string>
+    <string name="terminar">Terminar</string>
+
+    <string name="paso1_titulo">Observa frente al espejo</string>
+    <string name="paso1_instruccion">Párate frente a un espejo con los brazos relajados a los lados. Observa la forma, el tamaño y el color de tus senos y de la piel.</string>
+    <string name="paso1_pregunta">¿Notaste hundimientos, arrugas, enrojecimiento o cambios de forma?</string>
+    <string name="paso2_titulo">Manos detrás de la cabeza</string>
+    <string name="paso2_instruccion">Junta las manos detrás de la cabeza y lleva los codos hacia adelante. Observa si la forma o el contorno de tus senos cambia.</string>
+    <string name="paso2_pregunta">¿Notaste algún cambio en la forma o el contorno?</string>
+    <string name="paso3_titulo">Manos en la cadera</string>
+    <string name="paso3_instruccion">Presiona las manos con firmeza sobre la cadera e inclínate un poco hacia el espejo, llevando hombros y codos hacia adelante.</string>
+    <string name="paso3_pregunta">¿Viste algún hundimiento o algo diferente a lo habitual?</string>
+    <string name="paso4_titulo">Revisa los pezones</string>
+    <string name="paso4_instruccion">Aprieta con suavidad cada pezón entre tus dedos. Observa si sale algún líquido y si el pezón se hundió o cambió de dirección.</string>
+    <string name="paso4_pregunta">¿Salió algún líquido o notaste cambios en el pezón?</string>
+    <string name="paso5_titulo">Palpa de pie</string>
+    <string name="paso5_instruccion">Levanta el brazo izquierdo. Con las yemas de tres dedos de la mano derecha recorre todo el seno izquierdo en círculos pequeños, con presión suave, media y firme. Repite del otro lado. Puedes hacerlo en la ducha.</string>
+    <string name="paso5_pregunta">¿Sentiste algún bulto, endurecimiento o dolor diferente?</string>
+    <string name="paso6_titulo">Palpa acostada</string>
+    <string name="paso6_instruccion">Acuéstate boca arriba con una almohada bajo el hombro derecho y el brazo detrás de la cabeza. Revisa todo el seno derecho con los mismos círculos. Repite del otro lado.</string>
+    <string name="paso6_pregunta">¿Sentiste algún bulto o una zona más dura que el resto?</string>
+    <string name="paso7_titulo">Revisa las axilas</string>
+    <string name="paso7_instruccion">Con el brazo un poco levantado, palpa la axila y la zona que sube hacia la clavícula. Busca bultos o ganglios inflamados en ambos lados.</string>
+    <string name="paso7_pregunta">¿Sentiste algún bulto en la axila o cerca de la clavícula?</string>
+
+    <!-- Resultado -->
+    <string name="resultado_titulo">Terminaste tu autoexamen</string>
+    <string name="resultado_sin_cambios">No marcaste cambios este mes. Sigue revisándote una vez al mes para conocer bien tu cuerpo.</string>
+    <string name="resultado_con_cambios">Marcaste uno o más cambios. No te asustes: la mayoría no son cáncer, pero te recomendamos consultar a un profesional de salud para que los revise.</string>
+    <string name="ver_donde_acudir">Ver dónde acudir</string>
+    <string name="volver_inicio">Volver al inicio</string>
+    <string name="reporte_titulo">Tu reporte</string>
+    <string name="reporte_cargando">Preparando tu reporte…</string>
+    <string name="reporte_error">No pudimos generar tu reporte en este momento.</string>
+    <string name="reporte_guardado">Guardado en Mis autoexámenes.</string>
+    <string name="reporte_sin_sesion">Inicia sesión en Perfil para guardar tus resultados.</string>
+
+    <!-- Perfil -->
+    <string name="perfil_titulo">Perfil</string>
+    <string name="perfil_subtitulo_login">Inicia sesión para guardar tus autoexámenes</string>
+    <string name="campo_correo">Correo electrónico</string>
+    <string name="campo_contrasena">Contraseña</string>
+    <string name="campo_nombre">Nombre</string>
+    <string name="campo_edad">Edad</string>
+    <string name="entrar">Entrar</string>
+    <string name="crear_cuenta">Crear cuenta</string>
+    <string name="registro_subtitulo">Tus datos se guardan de forma segura y solo se usan para tus reportes.</string>
+    <string name="registro_nota_contrasena">Usa al menos 8 caracteres.</string>
+    <string name="opcion_mis_autoexamenes">Mis autoexámenes</string>
+    <string name="opcion_recordatorios">Recordatorios</string>
+    <string name="opcion_idioma">Idioma</string>
+    <string name="opcion_cerrar_sesion">Cerrar sesión</string>
+
+    <!-- Mis autoexámenes -->
+    <string name="historial_vacio">Aún no tienes autoexámenes guardados.</string>
+    <string name="historial_con_cambios">Con cambios</string>
+    <string name="historial_sin_cambios">Sin cambios</string>
+
+    <!-- Recordatorios -->
+    <string name="recordatorio_mensual">Recordatorio mensual</string>
+    <string name="recordatorio_descripcion">Te enviaremos una notificación cada 30 días para que no olvides tu autoexamen.</string>
+    <string name="recordatorio_sin_permiso">Para recibir recordatorios, permite las notificaciones de Guíame en los ajustes de tu teléfono.</string>
+
+    <!-- Idioma -->
+    <string name="idioma_espanol">Español</string>
+    <string name="idioma_kiche">K\'iche\'</string>
+    <string name="idioma_nota">La traducción al K\'iche\' está en revisión. Algunos textos pueden aparecer en español.</string>
+
+    <!-- Notificación -->
+    <string name="notificacion_canal">Recordatorios de autoexamen</string>
+    <string name="notificacion_titulo">Es momento de tu autoexamen</string>
+    <string name="notificacion_texto">Cuidarte es quererte. Tómate 5 minutos hoy.</string>
+
+    <!-- Errores -->
+    <string name="error_sin_conexion">No hay conexión a internet. Revisa tu red e intenta de nuevo.</string>
+    <string name="error_credenciales">Correo o contraseña incorrectos.</string>
+    <string name="error_correo_en_uso">Ya existe una cuenta con ese correo.</string>
+    <string name="error_sesion_expirada">Tu sesión terminó. Vuelve a iniciar sesión.</string>
+    <string name="error_campos">Completa todos los campos.</string>
+    <string name="error_correo_invalido">Escribe un correo válido.</string>
+    <string name="error_contrasena_corta">La contraseña debe tener al menos 8 caracteres.</string>
+    <string name="error_edad">Escribe una edad válida.</string>
+    <string name="error_demasiados_intentos">Demasiados intentos. Espera unos minutos e intenta de nuevo.</string>
+    <string name="error_servidor">Algo salió mal. Intenta de nuevo en un momento.</string>
+</resources>

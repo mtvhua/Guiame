@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    K'iche' (código ISO 639-3: quc).
+
+    Copia aquí cada <string> de values/strings.xml con el MISMO name y su traducción.
+    Los textos que no estén en este archivo se muestran en español automáticamente.
+    Las traducciones de contenido de salud deben revisarlas hablantes nativas.
+-->
+<resources>
+    <string name="app_name">Guíame</string>
+    <string name="idioma_espanol">Español</string>
+    <string name="idioma_kiche">K\'iche\'</string>
+</resources>

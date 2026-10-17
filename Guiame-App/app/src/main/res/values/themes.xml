@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AppCompat es necesario para cambiar el idioma dentro de la app (AppCompatDelegate) -->
+    <style name="Theme.Guiame" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="colorPrimary">@color/rosa_principal</item>
+        <item name="colorAccent">@color/rosa_principal</item>
+    </style>
+</resources>
