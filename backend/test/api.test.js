@@ -65,11 +65,14 @@ const RESP_SIN_CAMBIOS = [1, 2, 3, 4, 5, 6, 7].map((paso) => ({ paso, respuesta:
 const RESP_CON_CAMBIOS = RESP_SIN_CAMBIOS.map((r) => (r.paso === 5 ? { paso: 5, respuesta: 'si' } : r));
 
 before(async () => {
+  // schema.sql es TU esquema (tablas usuario, autoexamen, ...) y adiciones.sql lo que la API agrega (refresh_token + permisos)
   const schema = fs.readFileSync(path.join(__dirname, '../src/db/schema.sql'), 'utf8');
+  const adiciones = fs.readFileSync(path.join(__dirname, '../src/db/adiciones.sql'), 'utf8');
   await getPool().query(schema);
-  // ejecutar dos veces comprueba que el esquema es idempotente
-  await getPool().query(schema);
-  await getPool().query('TRUNCATE usuarios CASCADE');
+  await getPool().query(adiciones);
+  // adiciones.sql debe poder correrse más de una vez sin dañar nada
+  await getPool().query(adiciones);
+  await getPool().query('TRUNCATE usuario CASCADE');
 
   vertex.generarReporte = async (datos) => { llamadas.push(datos); return 'Reporte simulado de Vertex AI.'; };
   server = crearApp().listen(0);
@@ -136,11 +139,20 @@ test('registro correcto, correo repetido (sin importar mayúsculas) y login', as
 });
 
 test('la contraseña se guarda como hash bcrypt, y el refresh token como SHA-256', async () => {
-  const { rows } = await getPool().query("SELECT password_hash FROM usuarios WHERE email = 'ana@correo.com'");
+  const { rows } = await getPool().query("SELECT contra_hash AS password_hash FROM usuario WHERE correo = 'ana@correo.com'");
   assert.match(rows[0].password_hash, /^\$2[aby]\$/);
-  const { rows: rt } = await getPool().query('SELECT token_hash FROM refresh_tokens WHERE usuario_id = $1', [ana.usuario.id]);
+  const { rows: rt } = await getPool().query('SELECT token_hash FROM refresh_token WHERE id_usuario = $1', [ana.usuario.id]);
   assert.ok(rt.length >= 1);
   assert.ok(rt.every((r) => r.token_hash.length === 64 && r.token_hash !== ana.refreshToken));
+});
+
+test('registro: guarda la fecha de nacimiento, crea el perfil 1 a 1 y deja el idioma en español', async () => {
+  assert.match(ana.usuario.id, /^\d+$/);   // los ids de tu esquema son enteros (la API los entrega como texto)
+  const { rows } = await getPool().query(
+    `SELECT u.fecha_nacimiento::text AS fecha, u.id_idioma, i.codigo, p.menopausia
+       FROM usuario u JOIN idioma i USING (id_idioma) JOIN perfil p USING (id_usuario)
+      WHERE u.id_usuario = $1`, [ana.usuario.id]);
+  assert.deepEqual(rows[0], { fecha: '1990-05-15', id_idioma: 1, codigo: 'es', menopausia: false });
 });
 
 test('GET /usuarios/me exige sesión válida', async () => {
@@ -159,7 +171,7 @@ test('autoexamen como invitada: devuelve reporte pero no guarda', async () => {
   assert.equal(r.json.tieneAlertas, true);
   assert.equal(r.json.reporte, 'Reporte simulado de Vertex AI.');
   assert.equal(llamadas[0].nombre, null);   // sin sesión no se manda nombre ni edad
-  const { rows } = await getPool().query('SELECT count(*)::int AS n FROM autoexamenes');
+  const { rows } = await getPool().query('SELECT count(*)::int AS n FROM autoexamen');
   assert.equal(rows[0].n, 0);
 });
 
@@ -190,11 +202,17 @@ test('autoexamen con sesión: guarda examen y 7 respuestas, y manda nombre y eda
   assert.equal(llamadas[0].nombre, 'Ana López');
   assert.equal(llamadas[0].edad, edadDe('1990-05-15'));   // la edad la calcula la base, no se guarda
 
-  const { rows } = await getPool().query('SELECT paso, respuesta FROM respuestas WHERE autoexamen_id = $1 ORDER BY paso', [r.json.id]);
+  const { rows } = await getPool().query(
+    `SELECT p.paso, x.valor AS respuesta FROM respuesta x JOIN pregunta p USING (id_pregunta)
+      WHERE x.id_autoexamen = $1 ORDER BY p.paso`, [r.json.id]);
   assert.equal(rows.length, 7);
   assert.equal(rows.find((x) => x.paso === 5).respuesta, 'si');
-  const { rows: ex } = await getPool().query('SELECT idioma, tiene_alertas FROM autoexamenes WHERE id = $1', [r.json.id]);
-  assert.deepEqual(ex[0], { idioma: 'quc', tiene_alertas: true });
+  const { rows: ex } = await getPool().query(
+    'SELECT estado, nivel_alerta, recomendacion, ver_modelo_ia FROM autoexamen WHERE id_autoexamen = $1', [r.json.id]);
+  assert.deepEqual(ex[0], {
+    estado: 'completado', nivel_alerta: 'consultar',
+    recomendacion: 'Reporte simulado de Vertex AI.', ver_modelo_ia: 'gemini-2.5-flash'
+  });
 });
 
 test('si Vertex AI falla: igual se guarda, con reporte null', async () => {
@@ -243,7 +261,7 @@ test('refresh: rota el token; reusar el viejo falla; logout revoca', async () =>
 
 test('un refresh token vencido no sirve', async () => {
   const login = (await http('POST', '/api/auth/login', { body: { email: 'ana@correo.com', password: 'secreta123' } })).json;
-  await getPool().query("UPDATE refresh_tokens SET expira_en = now() - interval '1 minute'");
+  await getPool().query("UPDATE refresh_token SET expira_en = now() - interval '1 minute'");
   assert.equal((await http('POST', '/api/auth/refresh', { body: { refreshToken: login.refreshToken } })).status, 401);
 });
 

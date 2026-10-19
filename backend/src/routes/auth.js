@@ -57,16 +57,23 @@ router.post('/register', async (req, res) => {
   const fechaNacimiento = validarFechaNacimiento(req.body?.fechaNacimiento);
 
   if (!nombre || nombre.length > 100) return res.status(400).json({ error: 'nombre_invalido' });
-  if (!EMAIL_RE.test(email) || email.length > 255) return res.status(400).json({ error: 'correo_invalido' });
+  if (!EMAIL_RE.test(email) || email.length > 150) return res.status(400).json({ error: 'correo_invalido' });
   if (!fechaNacimiento) return res.status(400).json({ error: 'fecha_nacimiento_invalida' });
   // bcrypt solo usa los primeros 72 bytes: se limita para no aceptar contraseñas que no se verifican completas
   if (password.length < 8 || Buffer.byteLength(password) > 72) return res.status(400).json({ error: 'contrasena_invalida' });
 
   const hash = await bcrypt.hash(password, 11);
   try {
+    // Un solo paso: crea el usuario y su perfil (relación 1 a 1). El idioma queda en el valor por defecto (español).
     const { rows } = await query(
-      `INSERT INTO usuarios (nombre, fecha_nacimiento, email, password_hash)
-       VALUES ($1, $2, $3, $4) RETURNING id, nombre, email, ${EDAD_SQL}`,
+      `WITH u AS (
+         INSERT INTO usuario (nombre, fecha_nacimiento, correo, contra_hash)
+         VALUES ($1, $2, $3, $4)
+         RETURNING id_usuario, nombre, correo, fecha_nacimiento
+       ), p AS (
+         INSERT INTO perfil (id_usuario) SELECT id_usuario FROM u
+       )
+       SELECT id_usuario::text AS id, nombre, correo AS email, ${EDAD_SQL} FROM u`,
       [nombre, fechaNacimiento, email, hash]
     );
     res.status(201).json(await respuestaDeSesion(rows[0]));
@@ -82,7 +89,8 @@ router.post('/login', limitarLoginPorCorreo, async (req, res) => {
   if (!email || !password) return res.status(400).json({ error: 'campos_incompletos' });
 
   const { rows } = await query(
-    `SELECT id, nombre, email, ${EDAD_SQL}, password_hash FROM usuarios WHERE lower(email) = $1`,
+    `SELECT id_usuario::text AS id, nombre, correo AS email, ${EDAD_SQL}, contra_hash AS password_hash
+       FROM usuario WHERE correo = $1`,
     [email]
   );
   const usuario = rows[0];
@@ -99,7 +107,10 @@ router.post('/refresh', async (req, res) => {
   const usuarioId = await tokens.consumirRefreshToken(refreshToken);
   if (!usuarioId) return res.status(401).json({ error: 'refresh_invalido' });
 
-  const { rows } = await query(`SELECT id, nombre, email, ${EDAD_SQL} FROM usuarios WHERE id = $1`, [usuarioId]);
+  const { rows } = await query(
+    `SELECT id_usuario::text AS id, nombre, correo AS email, ${EDAD_SQL} FROM usuario WHERE id_usuario = $1`,
+    [usuarioId]
+  );
   if (!rows[0]) return res.status(401).json({ error: 'refresh_invalido' });
   res.json(await respuestaDeSesion(rows[0]));
 });

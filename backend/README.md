@@ -8,12 +8,13 @@ src/
 ├── server.js            arranque (valida secretos, cierra bien con SIGTERM)
 ├── app.js               rutas, /health, manejo de errores
 ├── config.js            variables de entorno
-├── db/schema.sql        tablas (ejecutar en Cloud SQL Studio)
+├── db/schema.sql        tu esquema (usuario, autoexamen, pregunta, ...); ¡borra y recrea las tablas!
+├── db/adiciones.sql     lo que la API agrega: tabla refresh_token + permisos (no borra nada)
 ├── db/pool.js           conexión a Cloud SQL (socket /cloudsql/... en Cloud Run)
 ├── middleware/auth.js   JWT (sesión obligatoria u opcional)
 ├── routes/              auth, usuarios, examenes, media
 └── services/            tokens (JWT + refresh), vertex (Gemini)
-test/api.test.js         16 pruebas de integración contra PostgreSQL real
+test/api.test.js         17 pruebas de integración contra PostgreSQL real
 ```
 
 ## Endpoints
@@ -31,9 +32,13 @@ Contrato completo para el cliente: `docs/API.md` del proyecto Android. Resumen:
 
 ## Paso 6 (Cloud SQL): cargar las tablas
 
+La API usa **tu esquema** (`usuario`, `perfil`, `autoexamen`, `respuesta`, `pregunta`, `idioma`...). Solo agrega una tabla, `refresh_token`, para las sesiones.
+
 1. Cloud SQL Studio → base `guiame`, usuario **`postgres`** (no `app`: desde PostgreSQL 15 un usuario normal no puede crear tablas).
-2. Pegar y ejecutar `src/db/schema.sql`. Se puede ejecutar más de una vez sin dañar nada.
-3. El script termina dándole a `app` solo permiso de leer y escribir filas, que es lo único que necesita la API.
+2. Si todavía no tienes tus tablas: pegar y ejecutar `src/db/schema.sql`. **Ojo: ese script borra y recrea las tablas**, así que no lo vuelvas a correr cuando ya haya datos.
+3. Pegar y ejecutar `src/db/adiciones.sql`. Es seguro correrlo varias veces: crea `refresh_token` y le da a `app` permiso de leer y escribir filas y de usar las secuencias (necesario por los `SERIAL`).
+
+Cómo se guardan los datos: el reporte de Vertex AI va en `autoexamen.recomendacion`, el modelo en `ver_modelo_ia`, y `nivel_alerta` es `consultar` si alguna respuesta no fue "no". Cada respuesta se enlaza con su fila de `pregunta` por el número de paso, así que la tabla `pregunta` debe tener los 7 pasos (los trae `schema.sql`). Al registrarse se crea también la fila de `perfil`.
 
 ## Paso 7 (Cloud Run): desplegar
 

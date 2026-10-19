@@ -2,6 +2,7 @@
 
 const express = require('express');
 const { getPool, query } = require('../db/pool');
+const { config } = require('../config');
 const { requerirSesion, sesionOpcional } = require('../middleware/auth');
 const vertex = require('../services/vertex');
 const { EDAD_SQL } = require('../services/edad');
@@ -26,13 +27,12 @@ function validarRespuestas(lista) {
 router.post('/', sesionOpcional, async (req, res) => {
   const respuestas = validarRespuestas(req.body?.respuestas);
   if (!respuestas) return res.status(400).json({ error: 'respuestas_invalidas' });
-  const idioma = req.body?.idioma === 'quc' ? 'quc' : 'es';
   const tieneAlertas = respuestas.some((r) => r.respuesta !== 'no');
 
   let nombre = null;
   let edad = null;
   if (req.usuarioId) {
-    const { rows } = await query(`SELECT nombre, ${EDAD_SQL} FROM usuarios WHERE id = $1`, [req.usuarioId]);
+    const { rows } = await query(`SELECT nombre, ${EDAD_SQL} FROM usuario WHERE id_usuario = $1`, [req.usuarioId]);
     if (!rows[0]) return res.status(401).json({ error: 'token_invalido' });
     ({ nombre, edad } = rows[0]);
   }
@@ -47,16 +47,23 @@ router.post('/', sesionOpcional, async (req, res) => {
   try {
     await client.query('BEGIN');
     const { rows } = await client.query(
-      `INSERT INTO autoexamenes (usuario_id, tiene_alertas, reporte, idioma)
-       VALUES ($1, $2, $3, $4) RETURNING id, fecha`,
-      [req.usuarioId, tieneAlertas, reporte, idioma]
+      `INSERT INTO autoexamen (id_usuario, estado, nivel_alerta, recomendacion, ver_modelo_ia)
+       VALUES ($1, 'completado', $2, $3, $4)
+       RETURNING id_autoexamen::text AS id, ultima_fecha AS fecha`,
+      [req.usuarioId, tieneAlertas ? 'consultar' : 'sin_hallazgos', reporte, config.vertex.model]
     );
     const examen = rows[0];
-    await client.query(
-      `INSERT INTO respuestas (autoexamen_id, paso, respuesta)
-       SELECT $1, paso, respuesta FROM unnest($2::smallint[], $3::text[]) AS t(paso, respuesta)`,
+    // Cada respuesta se enlaza con su pregunta (tabla pregunta) por el número de paso
+    const guardadas = await client.query(
+      `INSERT INTO respuesta (id_autoexamen, id_pregunta, valor)
+       SELECT $1, p.id_pregunta, t.valor
+         FROM unnest($2::int[], $3::text[]) AS t(paso, valor)
+         JOIN pregunta p ON p.paso = t.paso`,
       [examen.id, respuestas.map((r) => r.paso), respuestas.map((r) => r.respuesta)]
     );
+    if (guardadas.rowCount !== PASOS.length) {
+      throw new Error('La tabla pregunta no tiene los 7 pasos: ejecuta los datos iniciales de schema.sql');
+    }
     await client.query('COMMIT');
     res.json({ id: examen.id, fecha: examen.fecha.toISOString(), reporte, tieneAlertas, guardado: true });
   } catch (e) {
@@ -69,8 +76,11 @@ router.post('/', sesionOpcional, async (req, res) => {
 
 router.get('/', requerirSesion, async (req, res) => {
   const { rows } = await query(
-    `SELECT id, fecha, reporte, tiene_alertas AS "tieneAlertas"
-       FROM autoexamenes WHERE usuario_id = $1 ORDER BY fecha DESC LIMIT 100`,
+    `SELECT id_autoexamen::text AS id, ultima_fecha AS fecha, recomendacion AS reporte,
+            (nivel_alerta = 'consultar') AS "tieneAlertas"
+       FROM autoexamen
+      WHERE id_usuario = $1 AND estado = 'completado'
+      ORDER BY ultima_fecha DESC LIMIT 100`,
     [req.usuarioId]
   );
   res.json(rows.map((r) => ({ ...r, fecha: r.fecha.toISOString() })));
