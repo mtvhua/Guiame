@@ -31,8 +31,9 @@ Contrato completo para el cliente: `docs/API.md` del proyecto Android. Resumen:
 
 ## Paso 6 (Cloud SQL): cargar las tablas
 
-1. Cloud SQL Studio → base `guiame`, usuario `app`.
-2. Pegar y ejecutar `src/db/schema.sql` (se puede ejecutar más de una vez sin dañar nada).
+1. Cloud SQL Studio → base `guiame`, usuario **`postgres`** (no `app`: desde PostgreSQL 15 un usuario normal no puede crear tablas).
+2. Pegar y ejecutar `src/db/schema.sql`. Se puede ejecutar más de una vez sin dañar nada.
+3. El script termina dándole a `app` solo permiso de leer y escribir filas, que es lo único que necesita la API.
 
 ## Paso 7 (Cloud Run): desplegar
 
@@ -74,7 +75,7 @@ curl $URL/health                                # {"status":"ok"}
 curl $URL/health/db                             # {"status":"ok","db":"ok"}
 
 curl -X POST $URL/api/auth/register -H 'content-type: application/json' \
-  -d '{"nombre":"Prueba","edad":30,"email":"prueba@correo.com","password":"clave-segura-1"}'
+  -d '{"nombre":"Prueba","fechaNacimiento":"1995-06-20","email":"prueba@correo.com","password":"clave-segura-1"}'
 # -> devuelve accessToken y refreshToken. Úsalos:
 
 curl -X POST $URL/api/examenes -H 'content-type: application/json' -H "authorization: Bearer ACCESS_TOKEN" \
@@ -104,7 +105,8 @@ Vertex AI y Cloud Storage desde tu computadora necesitan `gcloud auth applicatio
 ## Pruebas
 
 ```bash
-# Usa una base de PRUEBAS (borra los datos de las tablas). Vertex AI y Cloud Storage se simulan.
+# Usa una base de PRUEBAS cuyo dueño sea el usuario del test (borra los datos de las tablas).
+# Vertex AI y Cloud Storage se simulan.
 DB_HOST=127.0.0.1 DB_USER=app DB_NAME=guiame_test DB_PASS=... npm test
 ```
 

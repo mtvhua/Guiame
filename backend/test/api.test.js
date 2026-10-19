@@ -52,6 +52,15 @@ async function http(metodo, ruta, { body, token, redirect = 'manual' } = {}) {
   return { status: res.status, headers: res.headers, json };
 }
 
+// Edad esperada de una fecha 'AAAA-MM-DD' (independiente de cuándo se corra la prueba)
+function edadDe(fecha) {
+  const [a, m, d] = fecha.split('-').map(Number);
+  const hoy = new Date();
+  let edad = hoy.getUTCFullYear() - a;
+  if (hoy.getUTCMonth() + 1 < m || (hoy.getUTCMonth() + 1 === m && hoy.getUTCDate() < d)) edad -= 1;
+  return edad;
+}
+
 const RESP_SIN_CAMBIOS = [1, 2, 3, 4, 5, 6, 7].map((paso) => ({ paso, respuesta: 'no' }));
 const RESP_CON_CAMBIOS = RESP_SIN_CAMBIOS.map((r) => (r.paso === 5 ? { paso: 5, respuesta: 'si' } : r));
 
@@ -80,12 +89,16 @@ test('health y health/db', async () => {
 });
 
 test('registro: validaciones', async () => {
-  const ok = { nombre: 'Ana López', edad: 28, email: 'ana@correo.com', password: 'secreta123' };
+  const ok = { nombre: 'Ana López', fechaNacimiento: '1990-05-15', email: 'ana@correo.com', password: 'secreta123' };
   for (const [campo, valor, error] of [
     ['email', 'no-es-correo', 'correo_invalido'],
     ['password', 'corta', 'contrasena_invalida'],
-    ['edad', 5, 'edad_invalida'],
-    ['edad', 'abc', 'edad_invalida'],
+    ['fechaNacimiento', '2020-01-01', 'fecha_nacimiento_invalida'],   // muy joven
+    ['fechaNacimiento', '1800-01-01', 'fecha_nacimiento_invalida'],   // muy mayor
+    ['fechaNacimiento', '2090-01-01', 'fecha_nacimiento_invalida'],   // futura
+    ['fechaNacimiento', '1990-02-31', 'fecha_nacimiento_invalida'],   // no existe
+    ['fechaNacimiento', 'abc', 'fecha_nacimiento_invalida'],
+    ['fechaNacimiento', undefined, 'fecha_nacimiento_invalida'],
     ['nombre', '   ', 'nombre_invalido']
   ]) {
     const r = await http('POST', '/api/auth/register', { body: { ...ok, [campo]: valor } });
@@ -97,17 +110,18 @@ test('registro: validaciones', async () => {
 let ana;   // sesión de Ana
 test('registro correcto, correo repetido (sin importar mayúsculas) y login', async () => {
   const r = await http('POST', '/api/auth/register', {
-    body: { nombre: 'Ana López', edad: 28, email: 'Ana@Correo.com', password: 'secreta123' }
+    body: { nombre: 'Ana López', fechaNacimiento: '1990-05-15', email: 'Ana@Correo.com', password: 'secreta123' }
   });
   assert.equal(r.status, 201);
   assert.ok(r.json.accessToken && r.json.refreshToken);
   assert.deepEqual(Object.keys(r.json.usuario).sort(), ['edad', 'email', 'id', 'nombre']);
   assert.equal(r.json.usuario.email, 'ana@correo.com');
+  assert.equal(r.json.usuario.edad, edadDe('1990-05-15'));
   assert.ok(!JSON.stringify(r.json).includes('password'));
   ana = r.json;
 
   const dup = await http('POST', '/api/auth/register', {
-    body: { nombre: 'Otra', edad: 30, email: 'ANA@correo.com', password: 'otra-clave-1' }
+    body: { nombre: 'Otra', fechaNacimiento: '1990-05-15', email: 'ANA@correo.com', password: 'otra-clave-1' }
   });
   assert.equal(dup.status, 409);
   assert.equal(dup.json.error, 'correo_en_uso');
@@ -174,7 +188,7 @@ test('autoexamen con sesión: guarda examen y 7 respuestas, y manda nombre y eda
   assert.equal(r.json.tieneAlertas, true);
   assert.ok(r.json.id);
   assert.equal(llamadas[0].nombre, 'Ana López');
-  assert.equal(llamadas[0].edad, 28);
+  assert.equal(llamadas[0].edad, edadDe('1990-05-15'));   // la edad la calcula la base, no se guarda
 
   const { rows } = await getPool().query('SELECT paso, respuesta FROM respuestas WHERE autoexamen_id = $1 ORDER BY paso', [r.json.id]);
   assert.equal(rows.length, 7);
@@ -206,7 +220,7 @@ test('historial: del más reciente al más antiguo, y solo el de cada usuaria', 
   assert.equal((await http('GET', '/api/examenes')).status, 401);
 
   const bea = (await http('POST', '/api/auth/register', {
-    body: { nombre: 'Bea', edad: 40, email: 'bea@correo.com', password: 'otra-clave-9' }
+    body: { nombre: 'Bea', fechaNacimiento: '1980-01-01', email: 'bea@correo.com', password: 'otra-clave-9' }
   })).json;
   const vacia = await http('GET', '/api/examenes', { token: bea.accessToken });
   assert.deepEqual(vacia.json, []);
@@ -247,7 +261,7 @@ test('media: 302 a URL firmada, y solo rutas permitidas que existan', async () =
 
 test('fuerza bruta: tras 10 intentos fallidos con un correo, el siguiente se bloquea (429)', async () => {
   const intento = (password) => http('POST', '/api/auth/login', { body: { email: 'victima@correo.com', password } });
-  await http('POST', '/api/auth/register', { body: { nombre: 'Vic', edad: 33, email: 'victima@correo.com', password: 'clave-correcta-1' } });
+  await http('POST', '/api/auth/register', { body: { nombre: 'Vic', fechaNacimiento: '1992-03-03', email: 'victima@correo.com', password: 'clave-correcta-1' } });
   for (let i = 0; i < 10; i++) assert.equal((await intento('mala-' + i)).status, 401);
   const bloqueado = await intento('clave-correcta-1');   // ni con la clave correcta
   assert.equal(bloqueado.status, 429);

@@ -4,6 +4,7 @@ const express = require('express');
 const { getPool, query } = require('../db/pool');
 const { requerirSesion, sesionOpcional } = require('../middleware/auth');
 const vertex = require('../services/vertex');
+const { EDAD_SQL } = require('../services/edad');
 
 const router = express.Router();
 
@@ -31,7 +32,7 @@ router.post('/', sesionOpcional, async (req, res) => {
   let nombre = null;
   let edad = null;
   if (req.usuarioId) {
-    const { rows } = await query('SELECT nombre, edad FROM usuarios WHERE id = $1', [req.usuarioId]);
+    const { rows } = await query(`SELECT nombre, ${EDAD_SQL} FROM usuarios WHERE id = $1`, [req.usuarioId]);
     if (!rows[0]) return res.status(401).json({ error: 'token_invalido' });
     ({ nombre, edad } = rows[0]);
   }

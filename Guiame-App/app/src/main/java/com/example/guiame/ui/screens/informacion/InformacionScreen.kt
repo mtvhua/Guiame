@@ -2,8 +2,6 @@ package com.example.guiame.ui.screens.informacion
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,7 +29,6 @@ import com.example.guiame.ui.theme.Blanco
 import com.example.guiame.ui.theme.RosaPrincipal
 import com.example.guiame.ui.theme.TextoPrincipal
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun InformacionScreen(onTemaClick: (TemaInfo) -> Unit) {
     Column(
@@ -46,12 +43,11 @@ fun InformacionScreen(onTemaClick: (TemaInfo) -> Unit) {
         )
         Spacer(Modifier.height(28.dp))
 
-        FlowRow(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            TemaInfo.entries.forEach { tema ->
+            TemaInfo.entries.filter { it.enLista }.forEach { tema ->
                 PillTema(tema = tema, onClick = { onTemaClick(tema) })
             }
         }
@@ -62,6 +58,7 @@ fun InformacionScreen(onTemaClick: (TemaInfo) -> Unit) {
 private fun PillTema(tema: TemaInfo, onClick: () -> Unit) {
     Surface(
         onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
         shape = CircleShape,
         color = Blanco,
         border = BordeRosa

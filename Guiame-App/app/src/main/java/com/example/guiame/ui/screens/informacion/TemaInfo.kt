@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.outlined.Event
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.icons.outlined.LocalHospital
@@ -20,14 +21,18 @@ enum class TemaInfo(
     val id: String,
     @StringRes val titulo: Int,
     @StringRes val cuerpo: Int,
-    val icono: ImageVector
+    val icono: ImageVector,
+    /** false = no aparece en la lista de Información, pero se puede abrir desde otra pantalla */
+    val enLista: Boolean = true
 ) {
     QUE_ES("que_es", R.string.tema_que_es, R.string.tema_que_es_cuerpo, Icons.AutoMirrored.Outlined.HelpOutline),
     CUANDO("cuando", R.string.tema_cuando, R.string.tema_cuando_cuerpo, Icons.Outlined.Event),
     SENALES("senales", R.string.tema_senales, R.string.tema_senales_cuerpo, Icons.Outlined.WarningAmber),
     RIESGO("riesgo", R.string.tema_riesgo, R.string.tema_riesgo_cuerpo, Icons.Outlined.Insights),
     MITOS("mitos", R.string.tema_mitos, R.string.tema_mitos_cuerpo, Icons.Outlined.Lightbulb),
-    DONDE_ACUDIR("donde_acudir", R.string.tema_donde, R.string.tema_donde_cuerpo, Icons.Outlined.LocalHospital);
+    CANCER_MAMA("cancer_mama", R.string.tema_cancer, R.string.tema_cancer_cuerpo, Icons.Outlined.Info),
+    // Oculto en la lista; lo abre el botón "Ver dónde acudir" del resultado del autoexamen
+    DONDE_ACUDIR("donde_acudir", R.string.tema_donde, R.string.tema_donde_cuerpo, Icons.Outlined.LocalHospital, enLista = false);
 
     val urlImagen: String get() = "${BuildConfig.MEDIA_BASE_URL}info/$id.jpg"
 
