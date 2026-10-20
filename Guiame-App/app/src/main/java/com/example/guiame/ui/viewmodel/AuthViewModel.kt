@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.guiame.util.fechaNacimientoIso
 
 data class FormularioUiState(
     val cargando: Boolean = false,
@@ -52,21 +53,21 @@ class AuthViewModel(
         ejecutar { authRepository.iniciarSesion(email, password).map { } }
     }
 
-    fun registrar(nombre: String, edadTexto: String, email: String, password: String) {
-        val edad = edadTexto.trim().toIntOrNull()
+    fun registrar(nombre: String, dia: String, mes: String, anio: String, email: String, password: String) {
+        val fechaNacimiento = fechaNacimientoIso(dia, mes, anio)
         val error = when {
-            nombre.isBlank() || edadTexto.isBlank() || email.isBlank() || password.isBlank() ->
+            nombre.isBlank() || dia.isBlank() || mes.isBlank() || anio.isBlank() || email.isBlank() || password.isBlank() ->
                 ErrorApp.CAMPOS_INCOMPLETOS
-            edad == null || edad !in 10..110 -> ErrorApp.EDAD_INVALIDA
+            fechaNacimiento == null -> ErrorApp.EDAD_INVALIDA
             !esCorreoValido(email) -> ErrorApp.CORREO_INVALIDO
             password.length < 8 -> ErrorApp.CONTRASENA_CORTA
             else -> null
         }
-        if (error != null || edad == null) {
+        if (error != null || fechaNacimiento == null) {
             _formulario.update { it.copy(error = error) }
             return
         }
-        ejecutar { authRepository.registrar(nombre, edad, email, password).map { } }
+        ejecutar { authRepository.registrar(nombre, fechaNacimiento, email, password).map { } }
     }
 
     fun cerrarSesion() {

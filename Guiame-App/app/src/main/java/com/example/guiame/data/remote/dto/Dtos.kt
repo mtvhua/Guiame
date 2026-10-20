@@ -11,7 +11,7 @@ data class LoginRequest(val email: String, val password: String)
 
 data class RegistroRequest(
     val nombre: String,
-    val edad: Int,
+    val fechaNacimiento: String,   // AAAA-MM-DD
     val email: String,
     val password: String
 )

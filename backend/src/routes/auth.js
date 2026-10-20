@@ -70,8 +70,6 @@ router.post('/register', async (req, res) => {
          INSERT INTO usuario (nombre, fecha_nacimiento, correo, contra_hash)
          VALUES ($1, $2, $3, $4)
          RETURNING id_usuario, nombre, correo, fecha_nacimiento
-       ), p AS (
-         INSERT INTO perfil (id_usuario) SELECT id_usuario FROM u
        )
        SELECT id_usuario::text AS id, nombre, correo AS email, ${EDAD_SQL} FROM u`,
       [nombre, fechaNacimiento, email, hash]

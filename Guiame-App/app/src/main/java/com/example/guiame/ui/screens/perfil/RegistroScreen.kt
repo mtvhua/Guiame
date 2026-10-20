@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Cake
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Person
@@ -44,13 +43,21 @@ import com.example.guiame.ui.theme.RosaPrincipal
 import com.example.guiame.ui.theme.TextoSecundario
 import com.example.guiame.ui.util.texto
 import com.example.guiame.ui.viewmodel.AuthViewModel
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import com.example.guiame.ui.theme.RosaBorde
 
 @Composable
 fun RegistroScreen(viewModel: AuthViewModel, onBack: () -> Unit) {
     val authState by viewModel.authState.collectAsState()
     val formulario by viewModel.formulario.collectAsState()
     var nombre by rememberSaveable { mutableStateOf("") }
-    var edad by rememberSaveable { mutableStateOf("") }
+    var dia by rememberSaveable { mutableStateOf("") }
+    var mes by rememberSaveable { mutableStateOf("") }
+    var anio by rememberSaveable { mutableStateOf("") }
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
 
@@ -75,7 +82,12 @@ fun RegistroScreen(viewModel: AuthViewModel, onBack: () -> Unit) {
         ) {
             Text(stringResource(R.string.registro_subtitulo), style = MaterialTheme.typography.bodyMedium, color = TextoSecundario)
             CampoTexto(nombre, { nombre = it }, stringResource(R.string.campo_nombre), Icons.Outlined.Person)
-            CampoTexto(edad, { edad = it.filter(Char::isDigit).take(3) }, stringResource(R.string.campo_edad), Icons.Outlined.Cake, tipoTeclado = KeyboardType.Number)
+            Text(stringResource(R.string.campo_fecha_nacimiento), style = MaterialTheme.typography.bodyMedium, color = TextoSecundario)
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                CampoNumero(dia, { dia = it.filter(Char::isDigit).take(2) }, stringResource(R.string.campo_dia), Modifier.weight(1f))
+                CampoNumero(mes, { mes = it.filter(Char::isDigit).take(2) }, stringResource(R.string.campo_mes), Modifier.weight(1f))
+                CampoNumero(anio, { anio = it.filter(Char::isDigit).take(4) }, stringResource(R.string.campo_anio), Modifier.weight(1.4f))
+            }
             CampoTexto(email, { email = it }, stringResource(R.string.campo_correo), Icons.Outlined.Email, tipoTeclado = KeyboardType.Email)
             CampoTexto(password, { password = it }, stringResource(R.string.campo_contrasena), Icons.Outlined.Lock, tipoTeclado = KeyboardType.Password, esContrasena = true)
             Text(stringResource(R.string.registro_nota_contrasena), style = MaterialTheme.typography.bodyMedium, color = TextoSecundario)
@@ -92,10 +104,39 @@ fun RegistroScreen(viewModel: AuthViewModel, onBack: () -> Unit) {
             } else {
                 BotonPrincipal(
                     stringResource(R.string.crear_cuenta),
-                    onClick = { viewModel.registrar(nombre, edad, email, password) },
+                    onClick = { viewModel.registrar(nombre, dia, mes, anio, email, password) },
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
             }
         }
     }
+}
+
+
+/** Campo numérico corto (día, mes, año) con el mismo estilo que CampoTexto. */
+@Composable
+private fun CampoNumero(
+    valor: String,
+    onValorChange: (String) -> Unit,
+    etiqueta: String,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        value = valor,
+        onValueChange = onValorChange,
+        label = { Text(etiqueta) },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+        singleLine = true,
+        shape = RoundedCornerShape(16.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = RosaPrincipal,
+            unfocusedBorderColor = RosaBorde,
+            focusedLabelColor = RosaPrincipal,
+            unfocusedLabelColor = TextoSecundario,
+            cursorColor = RosaPrincipal,
+            focusedContainerColor = Blanco,
+            unfocusedContainerColor = Blanco
+        ),
+        modifier = modifier
+    )
 }

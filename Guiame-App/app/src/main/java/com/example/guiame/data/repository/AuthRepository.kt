@@ -32,11 +32,11 @@ class AuthRepository(
 
     override suspend fun registrar(
         nombre: String,
-        edad: Int,
+        fechaNacimiento: String,
         email: String,
         password: String
     ): Result<Usuario> =
-        llamarApi { api.registrar(RegistroRequest(nombre.trim(), edad, email.trim(), password)) }
+        llamarApi { api.registrar(RegistroRequest(nombre.trim(), fechaNacimiento, email.trim(), password)) }
             .mapCatching { guardarSesion(it) }
 
     override suspend fun refrescarPerfil(): Result<Usuario> {

@@ -90,6 +90,10 @@
     <string name="campo_contrasena">Contraseña</string>
     <string name="campo_nombre">Nombre</string>
     <string name="campo_edad">Edad</string>
+    <string name="campo_fecha_nacimiento">Fecha de nacimiento</string>
+    <string name="campo_dia">Día</string>
+    <string name="campo_mes">Mes</string>
+    <string name="campo_anio">Año</string>
     <string name="entrar">Entrar</string>
     <string name="crear_cuenta">Crear cuenta</string>
     <string name="registro_subtitulo">Tus datos se guardan de forma segura y solo se usan para tus reportes.</string>
@@ -127,7 +131,7 @@
     <string name="error_campos">Completa todos los campos.</string>
     <string name="error_correo_invalido">Escribe un correo válido.</string>
     <string name="error_contrasena_corta">La contraseña debe tener al menos 8 caracteres.</string>
-    <string name="error_edad">Escribe una edad válida.</string>
+    <string name="error_edad">Escribe una fecha de nacimiento válida (día, mes y año de 4 dígitos).</string>
     <string name="error_demasiados_intentos">Demasiados intentos. Espera unos minutos e intenta de nuevo.</string>
     <string name="error_servidor">Algo salió mal. Intenta de nuevo en un momento.</string>
 </resources>
