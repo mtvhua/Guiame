@@ -16,10 +16,13 @@ export type Usuario = { id: string; nombre: string; email: string; edad: number 
 
 export type Examen = {
   id: string;
-  fecha: string; // "AAAA-MM-DD"
+  fecha: string; // día local "AAAA-MM-DD"
+  instante: string; // momento exacto (ISO); la hora se da formato en la página según el idioma
   reporte: string | null;
   tieneAlertas: boolean;
 };
+
+type ExamenServidor = { id: string; fecha: string; reporte: string | null; tieneAlertas: boolean };
 
 export type RegistroDatos = {
   nombre: string;
@@ -202,9 +205,18 @@ export async function getMe(): Promise<Usuario> {
 /* ---------- Reportes (los crea la app; la web solo los muestra) ---------- */
 
 export async function fetchExamenes(): Promise<Examen[]> {
-  const lista = await request<Examen[]>("/api/examenes", {}, true);
-  // La fecha llega como ISO ("2026-10-20T00:00:00.000Z"): se deja solo el día para no desfasarla por zona horaria
-  return lista.map((e) => ({ ...e, fecha: String(e.fecha).slice(0, 10) }));
+  const lista = await request<ExamenServidor[]>("/api/examenes", {}, true);
+  // ultima_fecha llega como instante UTC ("2026-10-21T02:38:00.000Z"): se convierte a la hora local de quien mira
+  const dos = (n: number) => String(n).padStart(2, "0");
+  return lista.map((e) => {
+    const d = new Date(e.fecha);
+    if (Number.isNaN(d.getTime())) return { ...e, fecha: String(e.fecha).slice(0, 10), instante: "" };
+    return {
+      ...e,
+      fecha: `${d.getFullYear()}-${dos(d.getMonth() + 1)}-${dos(d.getDate())}`,
+      instante: e.fecha,
+    };
+  });
 }
 
 /* ---------- Compatibilidad: el backend aún no tiene estas rutas ---------- */

@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 import LanguageMenu, { type LanguageOption } from "./LanguageMenu";
+import SideTab from "./SideTab";
 
-// Idiomas disponibles en la lista del navbar (usando 'ki' como en tu LanguageProvider)
+// Idiomas disponibles en la lista del navbar
 const LANGUAGES: LanguageOption[] = [
   { code: "es", label: "Español" },
   { code: "en", label: "English" },
@@ -15,7 +16,6 @@ const LANGUAGES: LanguageOption[] = [
 ];
 
 export default function Navbar() {
-  // CORRECCIÓN: Usamos `locale` y `setLocale` directamente desde el hook sin castings falsos
   const { dict, locale, setLocale } = useLanguage();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -24,9 +24,9 @@ export default function Navbar() {
     setOpen(false);
   }, [pathname]);
 
+  // "Info app" ya no va aquí: ahora es la pestaña lateral (SideTab)
   const items = [
     { href: "/", label: dict.nav.home },
-    { href: "/info-app", label: dict.nav.app },
     { href: "/Reporte", label: dict.nav.report },
     { href: "/perfil", label: dict.nav.profile },
   ];
@@ -36,11 +36,11 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar fijo */}
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-pink-100 backdrop-blur">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-stone-200 bg-pink-100 backdrop-blur">
         <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
           <Link href="/" className="flex items-center gap-2.5">
             <Image src="/logo.png" alt="Logo Guíame" width={36} height={36} className="rounded-md" priority />
-            <span className="text-xl font-semibold tracking-tight text-pink-600">Guíame</span>
+            <span className="text-xl font-semibold tracking-tight text-rose-800">Guíame</span>
           </Link>
 
           {/* Escritorio */}
@@ -53,19 +53,18 @@ export default function Navbar() {
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={`relative rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                       isActive(item.href)
-                        ? "text-pink-700"
-                        : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                        ? "text-rose-700"
+                        : "text-slate-600 hover:bg-stone-100 hover:text-slate-900"
                     }`}
                   >
                     {item.label}
                     {isActive(item.href) && (
-                      <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-pink-600" />
+                      <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-rose-700" />
                     )}
                   </Link>
                 </li>
               ))}
             </ul>
-            {/* CORRECCIÓN: Pasar value={locale} y onChange={setLocale} */}
             <LanguageMenu value={locale} onChange={setLocale} options={LANGUAGES} className="w-36" />
           </div>
 
@@ -93,7 +92,7 @@ export default function Navbar() {
                     aria-current={isActive(item.href) ? "page" : undefined}
                     className={`block rounded-md px-3 py-2 text-sm font-medium ${
                       isActive(item.href)
-                        ? "bg-pink-50 text-pink-700"
+                        ? "bg-rose-50 text-rose-700"
                         : "text-slate-700 hover:bg-slate-50"
                     }`}
                   >
@@ -103,7 +102,6 @@ export default function Navbar() {
               ))}
             </ul>
             <div className="mt-3">
-              {/* CORRECCIÓN: Pasar value={locale} y onChange={setLocale} */}
               <LanguageMenu value={locale} onChange={setLocale} options={LANGUAGES} />
             </div>
           </div>
@@ -112,6 +110,9 @@ export default function Navbar() {
 
       {/* Espaciador para que el contenido no quede debajo del navbar fijo */}
       <div aria-hidden="true" className="h-16" />
+
+      {/* Pestaña lateral de "Info app" */}
+      <SideTab />
     </>
   );
 }

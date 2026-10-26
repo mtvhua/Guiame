@@ -6,7 +6,7 @@ export type LanguageOption = { code: string; label: string };
 
 type Props = {
   value: string;
-  onChange: (code: any) => void; // Cambiar string por any aquí
+  onChange: (code: string) => void;
   options: LanguageOption[];
   className?: string;
 };
@@ -38,7 +38,7 @@ export default function LanguageMenu({ value, onChange, options, className = "" 
         aria-haspopup="listbox"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500"
+        className="flex w-full items-center gap-2 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-600"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <circle cx="12" cy="12" r="10" />
@@ -76,7 +76,7 @@ export default function LanguageMenu({ value, onChange, options, className = "" 
                     setOpen(false);
                   }}
                   className={`flex w-full items-center justify-between gap-6 px-3 py-2 text-left text-sm transition hover:bg-slate-50 ${
-                    selected ? "font-semibold text-pink-700" : "text-slate-700"
+                    selected ? "font-semibold text-rose-700" : "text-slate-700"
                   }`}
                 >
                   {o.label}

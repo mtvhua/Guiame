@@ -4,114 +4,187 @@ import Link from "next/link";
 import Navbar from "../Components/Navbar";
 import { useLanguage } from "../Components/LanguageProvider";
 
-const FEATURE_ICONS = ["🧭", "🔔", "📋", "🌎"];
+// Íconos de línea (uno por función, en el mismo orden que dict.appInfo.features)
+const svgProps = {
+  width: 22,
+  height: 22,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.5,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+const FEATURE_ICONS = [
+  // brújula
+  <svg key="compass" {...svgProps}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M15.5 8.5l-2 5-5 2 2-5 5-2z" />
+  </svg>,
+  // campana
+  <svg key="bell" {...svgProps}>
+    <path d="M6 8a6 6 0 1112 0c0 7 3 8 3 8H3s3-1 3-8" />
+    <path d="M10.3 20a2 2 0 003.4 0" />
+  </svg>,
+  // portapapeles
+  <svg key="clipboard" {...svgProps}>
+    <rect x="6" y="4" width="12" height="17" rx="2" />
+    <path d="M9 4h6v3H9zM9 12h6M9 16h4" />
+  </svg>,
+  // globo
+  <svg key="globe" {...svgProps}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18" />
+  </svg>,
+];
+
+function Check() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="mt-0.5 shrink-0 text-pink-600"
+    >
+      <path d="M5 12l4 4 10-10" />
+    </svg>
+  );
+}
+
+function Titulo({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-center text-2xl font-semibold tracking-tight text-slate-900 md:text-3xl">{children}</h2>
+  );
+}
 
 export default function InfoApp() {
   const { dict } = useLanguage();
   const a = dict.appInfo;
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-pink-50 to-white text-gray-800">
+    <main className="min-h-screen bg-white text-slate-800">
       <Navbar />
 
-      <div className="max-w-6xl mx-auto px-6 py-16">
-        {/* HERO */}
-        <header className="text-center mb-20">
-          <span className="inline-block rounded-full bg-pink-100 text-pink-700 text-xs font-bold uppercase tracking-widest px-4 py-1 mb-5">
-            {a.badge}
-          </span>
-          <h1 className="text-5xl md:text-6xl font-extrabold text-pink-700 mb-5">{a.title}</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">{a.subtitle}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+      {/* HERO */}
+      <header className="border-b border-pink-100 bg-pink-50/60">
+        <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-pink-600">{a.badge}</p>
+          <h1 className="mt-4 text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl">{a.title}</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">{a.subtitle}</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               href="/"
-              className="rounded-full bg-pink-600 text-white font-semibold px-6 py-3 shadow hover:bg-pink-700 transition"
+              className="rounded-md bg-pink-600 px-6 py-2.5 text-sm font-medium text-white transition hover:bg-pink-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-500 focus-visible:ring-offset-2"
             >
               {a.ctaWeb}
             </Link>
             <Link
-              href="/reporte"
-              className="rounded-full bg-white text-pink-700 font-semibold px-6 py-3 border border-pink-300 hover:bg-pink-50 transition"
+              href="/Reporte"
+              className="rounded-md border border-slate-300 bg-white px-6 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2"
             >
               {a.ctaApp}
             </Link>
           </div>
-        </header>
+        </div>
+      </header>
 
-        {/* FUNCIONES */}
-        <section className="mb-24">
-          <h2 className="text-3xl text-pink-600 font-bold mb-10 text-center">{a.featuresTitle}</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* FUNCIONES */}
+      <section>
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Titulo>{a.featuresTitle}</Titulo>
+          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {a.features.map((f, i) => (
               <div
                 key={f.t}
-                className="bg-white rounded-2xl border border-pink-100 shadow-md p-6 text-center hover:shadow-xl hover:-translate-y-1 transition"
+                className="rounded-xl border border-slate-200 bg-white p-6 transition hover:border-pink-200"
               >
-                <div className="text-4xl mb-3" aria-hidden="true">
-                  {FEATURE_ICONS[i]}
-                </div>
-                <h3 className="font-bold text-pink-700 mb-2">{f.t}</h3>
-                <p className="text-gray-600 text-sm leading-snug">{f.d}</p>
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-50 text-pink-600">
+                  {FEATURE_ICONS[i % FEATURE_ICONS.length]}
+                </span>
+                <h3 className="mt-4 font-semibold text-slate-900">{f.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{f.d}</p>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* CÓMO FUNCIONA */}
-        <section className="mb-24 bg-white rounded-3xl shadow-xl border border-pink-100 p-8 md:p-12">
-          <h2 className="text-3xl text-pink-600 font-bold mb-10 text-center">{a.howTitle}</h2>
-          <ol className="grid md:grid-cols-3 gap-8">
+      {/* CÓMO FUNCIONA */}
+      <section className="border-y border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Titulo>{a.howTitle}</Titulo>
+          <ol className="mt-10 grid overflow-hidden rounded-xl border border-slate-200 bg-white md:grid-cols-3 md:divide-x md:divide-slate-200">
             {a.steps.map((s, i) => (
-              <li key={s.t} className="flex gap-4">
-                <span className="flex-shrink-0 w-10 h-10 rounded-full bg-pink-600 text-white font-bold flex items-center justify-center">
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="font-bold text-gray-800 mb-1">{s.t}</h3>
-                  <p className="text-gray-600 text-sm leading-snug">{s.d}</p>
-                </div>
+              <li key={s.t} className="border-b border-slate-200 p-6 last:border-b-0 md:border-b-0">
+                <span className="text-sm font-semibold text-pink-600">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-2 font-semibold text-slate-900">{s.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{s.d}</p>
               </li>
             ))}
           </ol>
-        </section>
+        </div>
+      </section>
 
-        {/* PLATAFORMAS */}
-        <section className="mb-24">
-          <h2 className="text-3xl text-pink-600 font-bold mb-10 text-center">{a.platformsTitle}</h2>
-          <div className="grid md:grid-cols-2 gap-8 text-white">
-            <div className="bg-pink-700 rounded-3xl p-10 shadow-lg">
-              <h3 className="text-2xl font-bold mb-4">{a.web.title}</h3>
-              <ul className="space-y-2 text-sm text-pink-100">
+      {/* PLATAFORMAS */}
+      <section>
+        <div className="mx-auto max-w-6xl px-6 py-16">
+          <Titulo>{a.platformsTitle}</Titulo>
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 border-t-4 border-t-pink-600 bg-white p-8">
+              <h3 className="text-xl font-semibold text-slate-900">{a.web.title}</h3>
+              <ul className="mt-5 space-y-3 text-sm text-slate-600">
                 {a.web.items.map((it) => (
-                  <li key={it}>• {it}</li>
+                  <li key={it} className="flex gap-3">
+                    <Check />
+                    <span>{it}</span>
+                  </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-rose-400 rounded-3xl p-10 shadow-lg">
-              <h3 className="text-2xl font-bold mb-4">{a.app.title}</h3>
-              <ul className="space-y-2 text-sm text-rose-50">
+            <div className="rounded-xl border border-slate-200 border-t-4 border-t-slate-700 bg-white p-8">
+              <h3 className="text-xl font-semibold text-slate-900">{a.app.title}</h3>
+              <ul className="mt-5 space-y-3 text-sm text-slate-600">
                 {a.app.items.map((it) => (
-                  <li key={it}>• {it}</li>
+                  <li key={it} className="flex gap-3">
+                    <Check />
+                    <span>{it}</span>
+                  </li>
                 ))}
               </ul>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* IDIOMAS */}
-        <section className="mb-16 text-center max-w-2xl mx-auto">
-          <h2 className="text-3xl text-pink-600 font-bold mb-4">{a.languagesTitle}</h2>
-          <p className="text-gray-600 leading-relaxed mb-6">{a.languagesText}</p>
-          <div className="flex justify-center gap-3 text-sm font-semibold">
+      {/* IDIOMAS */}
+      <section className="border-t border-slate-200 bg-slate-50">
+        <div className="mx-auto max-w-2xl px-6 py-16 text-center">
+          <h2 className="text-2xl font-semibold tracking-tight text-slate-900">{a.languagesTitle}</h2>
+          <p className="mt-3 leading-relaxed text-slate-600">{a.languagesText}</p>
+          <div className="mt-6 flex flex-wrap justify-center gap-2">
             {["Español", "English", "K'iche'"].map((l) => (
-              <span key={l} className="rounded-full bg-pink-100 text-pink-700 px-4 py-1">
+              <span
+                key={l}
+                className="rounded-md border border-slate-200 bg-white px-4 py-1.5 text-sm font-medium text-slate-700"
+              >
                 {l}
               </span>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        <p className="text-center text-xs text-gray-500 max-w-3xl mx-auto border-t border-gray-200 pt-8">
+      {/* AVISO */}
+      <div className="mx-auto max-w-4xl px-6 py-10">
+        <p className="rounded-lg bg-slate-100 px-5 py-4 text-center text-xs leading-relaxed text-slate-600">
           {a.disclaimer}
         </p>
       </div>
