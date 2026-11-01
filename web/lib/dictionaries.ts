@@ -503,12 +503,10 @@ const en: Dictionary = {
   },
 };
 
-// K'iche': PENDIENTE de traducción revisada por hablante nativo / traductor.
-// Mientras una clave no exista aquí, se muestra en español.
+// K'iche': PENDIENTE de traducción revisada
 // Los textos de las preguntas del autoexamen vienen de la BD (Texto_pregunta / texto_ki).
 const ki: DeepPartial<Dictionary> = {
-  // Ejemplo de cómo agregar traducciones cuando estén revisadas:
-  // nav: { home: "..." },
+
 };
 
 export const dictionaries: Record<Locale, DeepPartial<Dictionary>> = { es, en, ki };
