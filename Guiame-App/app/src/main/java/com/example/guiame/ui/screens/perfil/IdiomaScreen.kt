@@ -41,9 +41,9 @@ fun IdiomaScreen(onBack: () -> Unit) {
                 onClick = { if (actual != Idioma.ESPANOL) IdiomaManager.cambiar(Idioma.ESPANOL) }
             )
             OpcionPill(
-                texto = stringResource(R.string.idioma_kiche),
-                seleccionada = actual == Idioma.KICHE,
-                onClick = { if (actual != Idioma.KICHE) IdiomaManager.cambiar(Idioma.KICHE) }
+                texto = stringResource(R.string.idioma_ingles),
+                seleccionada = actual == Idioma.INGLES,
+                onClick = { if (actual != Idioma.INGLES) IdiomaManager.cambiar(Idioma.INGLES) }
             )
             Text(stringResource(R.string.idioma_nota), style = MaterialTheme.typography.bodyMedium, color = TextoSecundario)
         }

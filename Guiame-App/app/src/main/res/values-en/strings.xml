@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">Guíame</string>
+
+    <!-- General -->
+    <string name="regresar">Back</string>
+    <string name="reintentar">Try again</string>
+    <string name="mostrar_contrasena">Show password</string>
+    <string name="ocultar_contrasena">Hide password</string>
+    <string name="aviso_medico">This guide does not replace an exam by a health professional or a mammogram.</string>
+
+    <!-- Navegación -->
+    <string name="tab_inicio">Home</string>
+    <string name="tab_informacion">Information</string>
+    <string name="tab_perfil">Profile</string>
+
+    <!-- Inicio -->
+    <string name="inicio_subtitulo">Your guide to the breast self-exam</string>
+    <string name="inicio_boton">Self-exam</string>
+    <string name="inicio_duracion">7 guided steps · 5 minutes</string>
+    <string name="inicio_recordatorio">Do it once a month, after your period starts (usually between day 7 and day 10 after your period begins).</string>
+
+    <!-- Información -->
+    <string name="info_titulo">Information</string>
+    <string name="info_subtitulo">Learn about your breast health</string>
+    <string name="tema_que_es">What is the self-exam?</string>
+    <string name="tema_cuando">When to do it</string>
+    <string name="tema_senales">Warning signs</string>
+    <string name="tema_riesgo">Risk factors</string>
+    <string name="tema_mitos">Myths and facts</string>
+    <string name="tema_donde">Where to go</string>
+    <string name="tema_cancer">What is breast cancer?</string>
+
+    <string name="tema_que_es_cuerpo">The breast self-exam is a check you do yourself by looking at and feeling your breasts, so you know how they normally look and feel and can notice any change early.\n\nIt does not replace a medical exam or a mammogram, but it helps you get to know your body and see a professional soon if something changes.\n\nIt takes about 5 minutes and you can do it at home: in front of a mirror, in the shower, or lying down.</string>
+    <string name="tema_cuando_cuerpo">Do it once a month.\n\nIf you still have periods: after your period starts (usually between day 7 and day 10 after it begins). On those days your breasts are less swollen and tender.\n\nIf you no longer have periods, are pregnant or are breastfeeding: pick the same day every month, for example the 1st, and stick to it.\n\nYou can turn on a reminder in Profile, Reminders.</string>
+    <string name="tema_senales_cuerpo">Pay attention if you notice:\n\n• A lump or a harder area in the breast or armpit.\n• Changes in the size or shape of a breast.\n• Skin that is dimpled, wrinkled or looks like an orange peel.\n• Redness, flaking or warmth in the skin or nipple.\n• A nipple that is pulled inward or points in a different direction.\n• Fluid coming out of the nipple, especially if it has blood.\n• Pain in the same spot that does not go away.\n\nMost of these changes are not cancer, but it is always important to have a health professional check them.</string>
+    <string name="tema_riesgo_cuerpo">Some factors increase the chance of breast cancer:\n\n• Being older, especially after age 40.\n• Having close relatives (mother, sister or daughter) with breast or ovarian cancer.\n• Having had breast cancer before.\n• Starting your period at an early age or reaching menopause late.\n• Never having had children or having your first child after age 30.\n• Being overweight after menopause, little physical activity and alcohol use.\n\nHaving a risk factor does not mean you will get cancer, and many women who get it had no known risk factors. That is why it is important to check yourself every month.</string>
+    <string name="tema_mitos_cuerpo">Myth: If no one in my family had cancer, I cannot get it.\nFact: Most women with breast cancer have no family history.\n\nMyth: Every lump in the breast is cancer.\nFact: Most lumps are not, but all of them should be checked.\n\nMyth: Deodorant or underwire bras cause cancer.\nFact: There is no scientific evidence that they do.\n\nMyth: Only older women get breast cancer.\nFact: It is more common after age 40, but it can appear earlier.\n\nMyth: If I do the self-exam I no longer need to see a doctor.\nFact: The self-exam helps you know your body, but it does not replace a medical exam or a mammogram.</string>
+    <string name="tema_donde_cuerpo">If you noticed any change, seek care even if it does not hurt:\n\n• The nearest health center or health post.\n• IGSS, if you are a member or a beneficiary.\n• The Liga Nacional contra el Cáncer (INCAN), in Guatemala City.\n• Your doctor, gynecologist or a clinic you trust.\n\nBefore you go, write down what change you noticed, in which breast and since when. You can also show your Guíame reports.</string>
+    <string name="tema_cancer_cuerpo">Breast cancer is a disease in which some cells in the breast grow out of control and form a tumor. It can start in the ducts that carry milk or in the glands that produce it.\n\nIt is one of the most common cancers in women. It can also occur in men, although it is rare.\n\nWhen it is found early, the chances of treatment and recovery are much higher. That is why it is important to know your breasts, do the self-exam every month and see a health professional if you notice any change.\n\nThe self-exam does not replace a mammogram or a medical exam.</string>
+
+    <!-- Autoexamen -->
+    <string name="salir">Exit</string>
+    <string name="contador_pasos">%1$d/%2$d</string>
+    <string name="etiqueta_paso">STEP %1$d</string>
+    <string name="respuesta_no">No</string>
+    <string name="respuesta_si">Yes</string>
+    <string name="respuesta_no_segura">I\'m not sure</string>
+    <string name="continuar">Continue</string>
+    <string name="terminar">Finish</string>
+
+    <string name="paso1_titulo">Look in the mirror</string>
+    <string name="paso1_instruccion">Stand in front of a mirror with your arms relaxed at your sides. Look at the shape, size and color of your breasts and skin.</string>
+    <string name="paso1_pregunta">Did you notice dimpling, wrinkles, redness or changes in shape?</string>
+    <string name="paso2_titulo">Hands behind your head</string>
+    <string name="paso2_instruccion">Clasp your hands behind your head and push your elbows forward. Look for any change in the shape or outline of your breasts.</string>
+    <string name="paso2_pregunta">Did you notice any change in shape or outline?</string>
+    <string name="paso3_titulo">Hands on your hips</string>
+    <string name="paso3_instruccion">Press your hands firmly on your hips and lean slightly toward the mirror, bringing your shoulders and elbows forward.</string>
+    <string name="paso3_pregunta">Did you see any dimpling or anything different from usual?</string>
+    <string name="paso4_titulo">Check your nipples</string>
+    <string name="paso4_instruccion">Gently squeeze each nipple between your fingers. Look for any fluid and for a nipple that is pulled inward or points in a different direction.</string>
+    <string name="paso4_pregunta">Did any fluid come out or did you notice changes in the nipple?</string>
+    <string name="paso5_titulo">Feel while standing</string>
+    <string name="paso5_instruccion">Raise your left arm. With the pads of three fingers of your right hand, go over your whole left breast in small circles, using light, medium and firm pressure. Repeat on the other side. You can do this in the shower.</string>
+    <string name="paso5_pregunta">Did you feel any lump, hardening or unusual pain?</string>
+    <string name="paso6_titulo">Feel while lying down</string>
+    <string name="paso6_instruccion">Lie on your back with a pillow under your right shoulder and your arm behind your head. Check your whole right breast with the same circles. Repeat on the other side.</string>
+    <string name="paso6_pregunta">Did you feel any lump or an area harder than the rest?</string>
+    <string name="paso7_titulo">Check your armpits</string>
+    <string name="paso7_instruccion">With your arm slightly raised, feel your armpit and the area that goes up toward the collarbone. Look for lumps or swollen lymph nodes on both sides.</string>
+    <string name="paso7_pregunta">Did you feel any lump in the armpit or near the collarbone?</string>
+
+    <!-- Resultado -->
+    <string name="resultado_titulo">You finished your self-exam</string>
+    <string name="resultado_sin_cambios">You did not mark any changes this month. Keep checking yourself once a month to get to know your body well.</string>
+    <string name="resultado_con_cambios">You marked one or more changes. Don\'t be scared: most are not cancer, but we recommend seeing a health professional to have them checked.</string>
+    <string name="ver_donde_acudir">See where to go</string>
+    <string name="volver_inicio">Back to home</string>
+    <string name="reporte_titulo">Your report</string>
+    <string name="reporte_cargando">Preparing your report…</string>
+    <string name="reporte_error">We could not generate your report right now.</string>
+    <string name="reporte_guardado">Saved in My self-exams.</string>
+    <string name="reporte_sin_sesion">Sign in on Profile to save your results.</string>
+
+    <!-- Perfil -->
+    <string name="perfil_titulo">Profile</string>
+    <string name="perfil_subtitulo_login">Sign in to save your self-exams</string>
+    <string name="campo_correo">Email</string>
+    <string name="campo_contrasena">Password</string>
+    <string name="campo_nombre">Name</string>
+    <string name="campo_edad">Age</string>
+    <string name="campo_fecha_nacimiento">Date of birth</string>
+    <string name="campo_dia">Day</string>
+    <string name="campo_mes">Month</string>
+    <string name="campo_anio">Year</string>
+    <string name="entrar">Sign in</string>
+    <string name="crear_cuenta">Create account</string>
+    <string name="registro_subtitulo">Your data is stored securely and only used for your reports.</string>
+    <string name="registro_nota_contrasena">Use at least 8 characters.</string>
+    <string name="opcion_mis_autoexamenes">My self-exams</string>
+    <string name="opcion_recordatorios">Reminders</string>
+    <string name="opcion_idioma">Language</string>
+    <string name="opcion_cerrar_sesion">Sign out</string>
+
+    <!-- Mis autoexámenes -->
+    <string name="historial_vacio">You have no saved self-exams yet.</string>
+    <string name="historial_con_cambios">With changes</string>
+    <string name="historial_sin_cambios">No changes</string>
+
+    <!-- Recordatorios -->
+    <string name="recordatorio_mensual">Monthly reminder</string>
+    <string name="recordatorio_descripcion">We will send you a notification every 30 days so you don\'t forget your self-exam.</string>
+    <string name="recordatorio_sin_permiso">To receive reminders, allow Guíame notifications in your phone settings.</string>
+
+    <!-- Idioma -->
+    <string name="idioma_espanol">Español</string>
+    <string name="idioma_ingles">English</string>
+    <string name="idioma_nota">The app will appear in the language you choose. Reports generated by AI will still be in Spanish.</string>
+
+    <!-- Notificación -->
+    <string name="notificacion_canal">Self-exam reminders</string>
+    <string name="notificacion_titulo">It\'s time for your self-exam</string>
+    <string name="notificacion_texto">Taking care of yourself is loving yourself. Take 5 minutes today.</string>
+
+    <!-- Errores -->
+    <string name="error_sin_conexion">No internet connection. Check your network and try again.</string>
+    <string name="error_credenciales">Incorrect email or password.</string>
+    <string name="error_correo_en_uso">An account with that email already exists.</string>
+    <string name="error_sesion_expirada">Your session ended. Please sign in again.</string>
+    <string name="error_campos">Fill in all the fields.</string>
+    <string name="error_correo_invalido">Enter a valid email.</string>
+    <string name="error_contrasena_corta">The password must have at least 8 characters.</string>
+    <string name="error_edad">Enter a valid date of birth (day, month and a 4-digit year).</string>
+    <string name="error_demasiados_intentos">Too many attempts. Wait a few minutes and try again.</string>
+    <string name="error_servidor">Something went wrong. Please try again in a moment.</string>
+</resources>

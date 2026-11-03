@@ -6,7 +6,7 @@ const { config } = require('../config');
 let cliente;
 function getCliente() {
   if (!cliente) {
-    // vertexai: true usa la cuenta de servicio de Cloud Run (rol Vertex AI User). No hay API keys.
+    // vertexai
     cliente = new GoogleGenAI({
       vertexai: true,
       project: config.vertex.project,
