@@ -13,8 +13,9 @@
 |---|---|
 | API desplegada (Cloud Run) | https://guiame-api-252741632220.us-east1.run.app (`/health`, `/health/db`) |
 | Portal web | No tiene link ya que fue desplegado desde localhost |
-| Video de demostración | link |
-| Documentación (PDF) |  |
+| Video de demostración | [Video - Guiame: Ecosistema de salud digital](https://youtu.be/me_xdoWI5Rs) |
+| Documentación (PDF) | [Guiame-Documentacion-Cloud.pdf](https://github.com/user-attachments/files/34390209/Guiame-Documentacion-Cloud.pdf)
+ |
 
 ## Funcionalidades
 
@@ -97,7 +98,7 @@ Necesita un PostgreSQL local (o el Cloud SQL Auth Proxy) con el esquema `schema.
 1. Abrir `Guiame-App/` con Android Studio.
 2. En `local.properties` agregar la URL del API, terminada en `/api/`:
    ```
-   guiame.api.url=https://TU-URL-DE-CLOUD-RUN/api/
+   guiame.api.url=https://URL-DE-CLOUD-RUN/api/
    ```
 3. Sync de Gradle y Run (emulador o celular con depuración USB).
 
@@ -125,4 +126,3 @@ El detalle por servicio, los precios unitarios y el análisis están en la **sec
 ## Limitaciones
 
 - Sin dominio propio: la app llama directo a Cloud Run por HTTPS y el balanceador solo atiende HTTP.
-- Traducción al K'iche' pendiente de revisión por hablantes nativos; el reporte de IA sale siempre en español.
